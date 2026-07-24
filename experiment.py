@@ -1,14 +1,23 @@
-#last bit that can be the code where we actually run experiments regardless of the circuit being used. 
-from analysis import chshValue
-from analysis import split_in_groups
-from protocol import run_clean
+#what actually gets called in the terminal with arguments to run the experiment changing the number of rounds and the type of circuit as desired
+if __name__ == "__main__":
+    import argparse
+    import matplotlib.pyplot as plt
+    from analysis import run_experiment
 
-def run_experiment(num_rounds):
-    chsh_calculation = []
-    keyGeneration = []
-    for _ in range(num_rounds):
-        result = run_clean()
-        split_in_groups(result, chsh_calculation, keyGeneration)
+    #Use arguments and assign them values
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--circuit", type=str, default="clean")
+    parser.add_argument("--rounds", type=int, default=1000)
+    args = parser.parse_args()
+    circuit = args.circuit
+    num_rounds = args.rounds
 
-    s = abs(chshValue(chsh_calculation))
-    return s, keyGeneration
+    #Use arguments to run the experiment and show the values.
+    s, keyGeneration, hist, fidelity = run_experiment(num_rounds, circuit)
+    print("CHSH S Value: ", s)
+    print("Fidelty: ", fidelity)
+
+    #Can become long depending on the number of rounds. Remove hashtag if want to see the key. 
+    #print("Key: ", keyGeneration)
+
+    plt.show()
