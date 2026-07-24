@@ -87,6 +87,14 @@ def split_in_groups(result, chsh_calculation, keyGeneration, occurrences):
 
     if (alice_random_base == 'a2' and bob_random_base == 'b1') or (alice_random_base == 'a3' and bob_random_base == 'b2') :
         keyGeneration.append(int(alice_result[0][0]))
+        if alice_result[0][0] == 0 and bob_result[0][0] == 0:
+            occurrences['00'] += 1
+        elif alice_result[0][0] == 0 and bob_result[0][0] == 1:
+            occurrences['01'] += 1
+        elif alice_result[0][0] == 1 and bob_result[0][0] == 0:
+            occurrences['10'] += 1
+        else: 
+            occurrences['11'] += 1
     else:
         chsh_calculation.append({
             'alice_random_base' : alice_random_base,
@@ -96,14 +104,6 @@ def split_in_groups(result, chsh_calculation, keyGeneration, occurrences):
         })
 
 
-    if alice_result[0][0] == 0 and bob_result[0][0] == 0:
-        occurrences['00'] += 1
-    elif alice_result[0][0] == 0 and bob_result[0][0] == 1:
-        occurrences['01'] += 1
-    elif alice_result[0][0] == 1 and bob_result[0][0] == 0:
-        occurrences['10'] += 1
-    elif alice_result[0][0] == 1 and bob_result[0][0] == 1:
-        occurrences['11'] += 1
 
 def run_experiment(num_rounds):
     occurrences = {'00': 0, '01': 0, '10': 0, '11': 0}
