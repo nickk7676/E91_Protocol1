@@ -1,5 +1,5 @@
 from protocol import run_clean
-
+import matplotlib.pyplot as plt
 
 def chshValue(chsh_calculation):
     a1b1 = []
@@ -68,7 +68,7 @@ def chshValue(chsh_calculation):
     return s
 
 
-def split_in_groups(result, chsh_calculation, keyGeneration):
+def split_in_groups(result, chsh_calculation, keyGeneration, occurrences):
 
     alice_result = result['alice_result']
     alice_random_base = result['alice_random_base']
@@ -96,14 +96,35 @@ def split_in_groups(result, chsh_calculation, keyGeneration):
         })
 
 
+    if alice_result[0][0] == 0 and bob_result[0][0] == 0:
+        occurrences['00'] += 1
+    elif alice_result[0][0] == 0 and bob_result[0][0] == 1:
+        occurrences['01'] += 1
+    elif alice_result[0][0] == 1 and bob_result[0][0] == 0:
+        occurrences['10'] += 1
+    elif alice_result[0][0] == 1 and bob_result[0][0] == 1:
+        occurrences['11'] += 1
+
 def run_experiment(num_rounds):
+    occurrences = {'00': 0, '01': 0, '10': 0, '11': 0}
     chsh_calculation = []
     keyGeneration = []
+
     for _ in range(num_rounds):
         result = run_clean()
-        split_in_groups(result, chsh_calculation, keyGeneration)
+        split_in_groups(result, chsh_calculation, keyGeneration, occurrences)
 
+    histogramData = {
+        '|00>' : occurrences['00'],
+        '|01>' : occurrences['01'],
+        '|10>' : occurrences['10'],
+        '|11>' : occurrences['11']
+    }
+    hist = plt.bar(histogramData.keys(), histogramData.values(), edgecolor='black')
+    hist = plt.xlabel("State")
+    hist = plt.ylabel("Count")
+    hist = plt.title("Distribution of States in Protocol")
     s = abs(chshValue(chsh_calculation))
-    return s, keyGeneration
+    return s, keyGeneration, hist
 
 

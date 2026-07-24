@@ -1,6 +1,7 @@
 import cirq
 import numpy as np
 import random
+import matplotlib.pyplot as plt
 
 #set num_rounds carefully because it can overflow the terminal very quickly
 num_rounds = 2000
@@ -54,9 +55,11 @@ def run_clean():
     }
 
 
+
 if __name__ == "__main__":
     from analysis import run_experiment
 
-    s, keyGeneration = run_experiment(num_rounds)
+    s, keyGeneration, hist = run_experiment(num_rounds)
     print(s)
     print(keyGeneration)
+    plt.show()
