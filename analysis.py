@@ -1,6 +1,8 @@
 from protocol import run_clean
 from eve_naive import run_naive
+from noisy import run_noisy
 import matplotlib.pyplot as plt
+
 
 #Calculate the CHSH S value to determin
 def chshValue(chsh_calculation):
@@ -119,7 +121,7 @@ def split_in_groups(result, chsh_calculation, keyGeneration, occurrences):
 
 
 #Helper method to run the experiment based on the number of rounds and the type of circuit meant to be used. 
-def run_experiment(num_rounds:int, circuit:str):
+def run_experiment(num_rounds:int, circuit:str, noise_strength:float):
     occurrences = {'00': 0, '01': 0, '10': 0, '11': 0}
     chsh_calculation = []
     keyGeneration = []
@@ -130,6 +132,8 @@ def run_experiment(num_rounds:int, circuit:str):
             result = run_clean()
         elif circuit == "naive_eve":
             result = run_naive()
+        elif circuit == "noisy":
+            result = run_noisy(noise_strength)
 
         #Takes the result from the method used and splits it into the key generation group or the chsh calculation group. 
         split_in_groups(result, chsh_calculation, keyGeneration, occurrences)
