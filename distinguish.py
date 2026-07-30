@@ -1,13 +1,15 @@
 from calibration import calibration
 import scipy
 
-def run_distinguish(num_rounds:int, comparison:str, tolerance:float, distinguish_rounds:int):
-    fidelityDifferences = []
+def run_distinguish_fixed_eve(num_rounds:int, comparison:str, tolerance:float, noise_strength:float):
+    noisyS, noisyKeyGeneration, noisyFig, noisyError_a2b1, noisyError_a3b2, eveS, eveKeyGeneration, eveFig, eveError_a2b1, eveError_a3b2 = calibration(comparison, tolerance, num_rounds, noise_strength)
+    return noisyFig, noisyS, noisyError_a2b1, noisyError_a3b2, eveS, eveError_a2b1, eveError_a3b2
+    
 
-    for i in range(distinguish_rounds):
-        noisyS, noisyKeyGeneration, noisyHist, noisyFidelity, eveS, eveKeyGeneration, eveHist, eveFidelity = calibration(comparison, tolerance, num_rounds)
-        fidelityDifference = (noisyFidelity - eveFidelity)
-        fidelityDifferences.append(fidelityDifference)
+def run_distinguish_random_eve(num_rounds:int, comparison:str, tolerance:float, noise_strength:float):
+    noisyS, noisyKeyGeneration, noisyFig, noisyError_a2b1, noisyError_a3b2, eveS, eveKeyGeneration, eveFig, eveError_a2b1, eveError_a3b2 = calibration(comparison, tolerance, num_rounds, noise_strength)
+    return noisyFig, noisyS, noisyError_a2b1, noisyError_a3b2, eveS, eveError_a2b1, eveError_a3b2
 
-    fidelityWilcoxon = scipy.stats.wilcoxon(fidelityDifferences)
-    return fidelityWilcoxon
+def run_distinguish_fixed_ancilla(num_rounds:int, comparison:str, tolerance:float, noise_strength:float, eve_strength:float):
+    noisyS, noisyKeyGeneration, noisyFig, noisyError_a2b1, noisyError_a3b2, eveS, eveKeyGeneration, eveFig, eveError_a2b1, eveError_a3b2 = calibration(comparison, tolerance, num_rounds, noise_strength, eve_strength)
+    return noisyFig, noisyS, noisyError_a2b1, noisyError_a3b2, eveS, eveError_a2b1, eveError_a3b2    

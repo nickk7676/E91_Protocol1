@@ -5,14 +5,14 @@ import cirq
 #Declare bases possible for alice and bob
 alice_bases = {
     'a1' : 0,
-    'a2' : np.pi/4,
-     'a3' : np.pi/2
+    'a2' : np.radians(45),
+    'a3' : np.radians(90)
 }
 
 bob_bases = {
-    'b1' : np.pi/4,
-    'b2' : np.pi/2,
-    'b3' : 3*np.pi/4
+    'b1' : np.radians(45),
+    'b2' : np.radians(90),
+    'b3' : np.radians(135)
 }
 
 #Runs a circuit with noise and no eve

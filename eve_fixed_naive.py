@@ -16,15 +16,11 @@ bob_bases = {
 }
 
 eve_bases = {
-    'e1' : np.radians(45),
-    'e2' : np.radians(90),
-    'e3' : np.radians(135)
-
-
+    'e1' : np.radians(45) 
 }
 
 #Runs a simple intercept and resend attack and returns the result of that one singlet state. 
-def run_naive():
+def run_fixed_naive():
 
     #Choosing a random base and then setting the respective theta to that base's value. 
     alice_random_base = random.choice(list(alice_bases.keys()))
@@ -68,5 +64,3 @@ def run_naive():
         'alice_result' : alice_result,
         'bob_result': bob_result
     }
-
-
